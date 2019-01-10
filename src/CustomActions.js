@@ -24,11 +24,13 @@ Actions.replaceAction("HoldCall", (payload, original) => {
 
     const task = payload.task;
     const reservation = payload.task.sourceObject;
-    const conference = task.attributes.conference.sid;
-    const participant = task.attributes.conference.participants.customer;
-    const hold = true;
 
-    if (task.taskChannelUniqueName === "voice" && reservation.task.attributes.direction === "outbound") {
+    if (task.taskChannelUniqueName === "voice" && reservation.task.attributes.direction === "outbound" &&
+        task.attributes.conference) {
+      const conference = task.attributes.conference.sid;
+      const participant = task.attributes.conference.participants.customer;
+      const hold = true;
+
       toggleHold(conference, participant, hold, original, payload, reservation);
     } else {
       original(payload);
@@ -45,11 +47,13 @@ Actions.replaceAction("UnholdCall", (payload, original) => {
       original(payload)
     } else {
       const reservation = payload.task.sourceObject;
-      const conference = task.attributes.conference.sid;
-      const participant = task.attributes.conference.participants.customer;
-      const hold = false;
 
-      if (task.taskChannelUniqueName === "voice" && reservation.task.attributes.direction === "outbound") {
+      if (task.taskChannelUniqueName === "voice" && reservation.task.attributes.direction === "outbound" &&
+          task.attributes.conference) {
+        const conference = task.attributes.conference.sid;
+        const participant = task.attributes.conference.participants.customer;
+        const hold = false;
+
         toggleHold(conference, participant, hold, original, payload, reservation);
       } else {
         original(payload);
