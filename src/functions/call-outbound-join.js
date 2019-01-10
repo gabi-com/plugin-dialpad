@@ -19,7 +19,8 @@ const addParticipantToConference = (client, context, conferenceSid, to, from) =>
       to: to,
       from: from,
       earlyMedia: true,
-      endConferenceOnExit: true
+      endConferenceOnExit: true,
+      record: true
     });
 };
 
